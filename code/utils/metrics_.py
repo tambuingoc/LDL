@@ -24,7 +24,7 @@ import numpy as np
 import scipy as sp
 
 from sklearn import metrics
-from sklearn.metrics.classification import (_check_targets, _prf_divide,
+from sklearn.metrics._classification import (_check_targets, _prf_divide,
                                             precision_recall_fscore_support)
 from sklearn.preprocessing import LabelEncoder
 from sklearn.utils.multiclass import unique_labels

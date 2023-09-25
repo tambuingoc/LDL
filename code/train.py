@@ -22,7 +22,7 @@ import time
 import warnings
 warnings.filterwarnings("ignore")
 import os
-os.environ["CUDA_VISIBLE_DEVICES"] = "1"
+os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 
 # Hyper Parameters
@@ -63,7 +63,7 @@ def trainval_test(cross_val_index, sigma, lam):
 
     dset_train = dataset_processing.DatasetProcessing(
         DATA_PATH, TRAIN_FILE, transform=transforms.Compose([
-                transforms.Scale((256, 256)),
+                transforms.Resize((256, 256)),
                 transforms.RandomCrop(224),
                 transforms.RandomHorizontalFlip(),
                 transforms.ToTensor(),
@@ -73,7 +73,7 @@ def trainval_test(cross_val_index, sigma, lam):
 
     dset_test = dataset_processing.DatasetProcessing(
         DATA_PATH, TEST_FILE, transform=transforms.Compose([
-                transforms.Scale((224, 224)),
+                transforms.Resize((224, 224)),
                 transforms.ToTensor(),
                 normalize,
             ]))
