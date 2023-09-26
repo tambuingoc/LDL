@@ -33,10 +33,10 @@ NUM_WORKERS = 12
 NUM_CLASSES = 4
 LOG_FILE_NAME = './logs/log_' + time.strftime("%Y-%m-%d_%H-%M-%S", time.localtime()) + '.log'
 lr_steps = [30, 60, 90, 120]
-checkpoint_interval = 10
+checkpoint_interval = 1
 np.random.seed(42)
 
-DATA_PATH = 'E:\\ASCI-Skin analysis by Machine and Deep\\ACNE04-20230924T133050Z-001\\ACNE04\\Classification\\JPEGImages'
+DATA_PATH = 'Classification/Classification/JPEGImages'
 
 log = Logger()
 log.open(LOG_FILE_NAME, mode="a")
@@ -53,10 +53,10 @@ def criterion(lesions_num):
         return 3
 
 
-def trainval_test(cross_val_index, sigma, lam, preLoad = False):
+def trainval_test(cross_val_index, sigma, lam, preLoad=False):
 
-    TRAIN_FILE = 'E:\\ASCI-Skin analysis by Machine and Deep\\ACNE04-20230924T133050Z-001\\ACNE04\\Detection\\VOC2007\\ImageSets\\Main\\NNEW_trainval_' + cross_val_index + '.txt'
-    TEST_FILE = 'E:\\ASCI-Skin analysis by Machine and Deep\\ACNE04-20230924T133050Z-001\\ACNE04\\Detection\\VOC2007\\ImageSets\\Main\\NNEW_test_' + cross_val_index + '.txt'
+    TRAIN_FILE = 'Detection/Detection/VOC2007/ImageSets/Main/NNEW_trainval_' + cross_val_index + '.txt'
+    TEST_FILE = 'Detection/Detection/VOC2007/ImageSets/Main/NNEW_test_' + cross_val_index + '.txt'
 
     normalize = transforms.Normalize(mean=[0.45815152, 0.361242, 0.29348266],
                                      std=[0.2814769, 0.226306, 0.20132513])
@@ -95,7 +95,8 @@ def trainval_test(cross_val_index, sigma, lam, preLoad = False):
     cudnn.benchmark = True
 
     params = []
-    #Load (add)
+    
+    #Luu model
     init_epoch = 0
     if preLoad:
         checkpoint = torch.load('model_checkpoint.pth')
@@ -236,7 +237,7 @@ def trainval_test(cross_val_index, sigma, lam, preLoad = False):
                     log.write(str(mae_mse_report) + '\n')
 
         # Save checkpoint after a certain number of epochs or at the end of an epoch
-        if (epoch+1) % checkpoint_interval == 0:
+        if (epoch + 1) % checkpoint_interval == 0:
             checkpoint = {
                 'epoch': epoch,
                 'model_state_dict': cnn.state_dict(),
