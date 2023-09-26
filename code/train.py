@@ -36,7 +36,7 @@ lr_steps = [30, 60, 90, 120]
 checkpoint_interval = 10
 np.random.seed(42)
 
-DATA_PATH = 'E:\\ASCI-Skin analysis by Machine and Deep\\ACNE04-20230924T133050Z-001\\ACNE04\\Classification\\JPEGImages'
+DATA_PATH = '/content/Classification/JPEGImages'
 
 log = Logger()
 log.open(LOG_FILE_NAME, mode="a")
@@ -55,8 +55,8 @@ def criterion(lesions_num):
 
 def trainval_test(cross_val_index, sigma, lam, preLoad = False):
 
-    TRAIN_FILE = 'E:\\ASCI-Skin analysis by Machine and Deep\\ACNE04-20230924T133050Z-001\\ACNE04\\Detection\\VOC2007\\ImageSets\\Main\\NNEW_trainval_' + cross_val_index + '.txt'
-    TEST_FILE = 'E:\\ASCI-Skin analysis by Machine and Deep\\ACNE04-20230924T133050Z-001\\ACNE04\\Detection\\VOC2007\\ImageSets\\Main\\NNEW_test_' + cross_val_index + '.txt'
+    TRAIN_FILE = '/content/Detection/VOC2007/ImageSets/Main/NNEW_trainval_' + cross_val_index + '.txt'
+    TEST_FILE = '/content/Detection/VOC2007/ImageSets/Main/NNEW_test_' + cross_val_index + '.txt'
 
     normalize = transforms.Normalize(mean=[0.45815152, 0.361242, 0.29348266],
                                      std=[0.2814769, 0.226306, 0.20132513])
@@ -98,7 +98,7 @@ def trainval_test(cross_val_index, sigma, lam, preLoad = False):
     #Load (add)
     init_epoch = 0
     if preLoad:
-        checkpoint = torch.load('model_checkpoint.pth')
+        checkpoint = torch.load('/content/drive/MyDrive/check_epock_save/model_checkpoint.pth')
         cnn.load_state_dict(checkpoint['model_state_dict'])
         init_epoch = checkpoint['epoch']
       
@@ -236,17 +236,17 @@ def trainval_test(cross_val_index, sigma, lam, preLoad = False):
                     log.write(str(mae_mse_report) + '\n')
 
         # Save checkpoint after a certain number of epochs or at the end of an epoch
-        if (epoch+1) % checkpoint_interval == 0:
+        if epoch % checkpoint_interval == 0:
             checkpoint = {
                 'epoch': epoch,
                 'model_state_dict': cnn.state_dict(),
                 'optimizer_state_dict': optimizer.state_dict(),
             }
-            torch.save(checkpoint, f'model_checkpoint_{epoch}.pth')
-            torch.save(checkpoint, f'model_checkpoint.pth')
+            torch.save(checkpoint, f'/content/drive/MyDrive/check_epock_save/model_checkpoint_{epoch}.pth')
+            torch.save(checkpoint, f'/content/drive/MyDrive/check_epock_save/model_checkpoint.pth')
 
 
-is_preload = True
+is_preload = False
 def run():
     torch.multiprocessing.freeze_support()
     print('loop')
