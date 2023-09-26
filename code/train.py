@@ -98,7 +98,7 @@ def trainval_test(cross_val_index, sigma, lam, preLoad = False):
     #Load (add)
     init_epoch = 0
     if preLoad:
-        checkpoint = torch.load('/content/drive/MyDrive/check_epock_save/model_checkpoint.pth')
+        checkpoint = torch.load(f'/content/drive/MyDrive/check_epock_save{cross_val_index}/model_checkpoint.pth')
         cnn.load_state_dict(checkpoint['model_state_dict'])
         init_epoch = checkpoint['epoch']
       
@@ -242,8 +242,8 @@ def trainval_test(cross_val_index, sigma, lam, preLoad = False):
                 'model_state_dict': cnn.state_dict(),
                 'optimizer_state_dict': optimizer.state_dict(),
             }
-            torch.save(checkpoint, f'/content/drive/MyDrive/check_epock_save/model_checkpoint_{epoch}.pth')
-            torch.save(checkpoint, f'/content/drive/MyDrive/check_epock_save/model_checkpoint.pth')
+            torch.save(checkpoint, f'/content/drive/MyDrive/check_epock_save{cross_val_index}/model_checkpoint_{epoch}.pth')
+            torch.save(checkpoint, f'/content/drive/MyDrive/check_epock_save{cross_val_index}/model_checkpoint.pth')
 
 
 is_preload = False
